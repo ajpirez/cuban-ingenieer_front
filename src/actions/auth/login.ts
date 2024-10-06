@@ -29,7 +29,7 @@ export const login = async (email: string, password: string) => {
   } catch (error) {
     return {
       ok: false,
-      message: 'no se pudo iniciar sessión',
+      message: 'You have entered an invalid email or password',
     };
   }
 };
