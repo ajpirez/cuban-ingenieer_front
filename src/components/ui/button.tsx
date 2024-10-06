@@ -15,6 +15,7 @@ type ButtonProps = {
   button: Button;
 };
 
+// eslint-disable-next-line no-redeclare
 export const Button: React.FC<ButtonProps> = ({ button }) => {
   return (
     <button

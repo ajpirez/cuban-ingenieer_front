@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default async function Home({ searchParams }: Props) {
-    const page = searchParams?.page;
+  const page = searchParams?.page;
 
   const tasks = await listTasksByUser({
     page: +checkPositiveInteger(page || '1', 1, 1000000, '1'),
@@ -28,7 +28,9 @@ export default async function Home({ searchParams }: Props) {
           <HandleSignOut status={tasks?.status ?? 200} />
           <TaskInput />
           <TaskList />
-          <Pagination totalPages={Math.ceil(tasks?.data?.pagination?.lastPage ?? 0)} />
+          {tasks?.data?.elements?.length > 0 && (
+            <Pagination totalPages={Math.ceil(tasks?.data?.pagination?.lastPage ?? 0)} />
+          )}
         </TaskProvider>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
