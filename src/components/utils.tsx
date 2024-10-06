@@ -101,11 +101,8 @@ export const highlightWordsColor = (input: string) => {
 }
 
 export function checkPositiveInteger(str: string, min?: number, max?: number, defaultValue: string = '1'): string {
-  // Try to convert the string to an integer
   const num = parseInt(str, 10);
 
-  // Check if the conversion is valid, if the number is greater than zero,
-  // and if it is within the optional min and max range
   if (!isNaN(num) && num > 0 && Number.isInteger(num)) {
     if ((min !== undefined && num < min) || (max !== undefined && num > max)) {
       return defaultValue;
@@ -113,4 +110,20 @@ export function checkPositiveInteger(str: string, min?: number, max?: number, de
     return str;
   }
   return defaultValue;
+}
+
+export const generatePaginationNumbers = (currentPage: number, totalPages: number) => {
+    if (totalPages <= 7) {
+        return Array.from({length: totalPages}, (_, i) => i + 1)
+    }
+    if(currentPage <=3){
+        return [1,2,3,'...', totalPages - 1, totalPages]
+    }
+
+    if(currentPage >= totalPages - 2){
+        return [1,2,'...', totalPages - 2, totalPages - 1, totalPages]
+    }
+    return [
+        1,'...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages
+    ]
 }
