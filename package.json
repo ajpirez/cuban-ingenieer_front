@@ -6,21 +6,34 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "check-types": "tsc --pretty --noEmit",
+    "check-format": "prettier --check --ignore-path .prettierignore \"*/**/*.+(js|jsx|ts|tsx|json)\"",
+    "check-lint": "eslint --ignore-path .eslintignore \"*/**/*.+(js|jsx|ts|tsx|json)\" --ext ts --ext tsx --ext js",
+    "format": "prettier --ignore-path .prettierignore \"*/**/*.+(js|jsx|ts|tsx|json)\" --write ."
   },
   "dependencies": {
+    "husky": "^9.1.6",
+    "next": "14.2.14",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.14"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "postcss": "^8",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.5",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jsx-a11y": "^6.9.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "lint-staged": "^15.2.9",
+    "postcss": "^8.4.41",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.6",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.14"
+    "typescript": "5.2.2"
   }
 }
