@@ -24,7 +24,7 @@ const TopMenu = () => {
         return null;
     }
     return (
-        <nav className='bg-navbarColor p-2'>
+        <nav className='bg-navbarColor p-2 sticky top-0 z-50'>
             <ul className='list-none m-0 p-0 flex justify-end'>
                 {isAuthenticated && (
                     <li className='ml-2'>

@@ -6,6 +6,7 @@ import {startTransition, useOptimistic} from "react";
 import {useRouter} from "next/navigation";
 import {useTask} from "@/hooks/use-task";
 import {updatedCompletedByUser} from "@/actions/updatedCompletedByUser";
+import useScrollToTop from "@/hooks/useScrollToTop";
 
 interface TaskItemProps {
     task: Task;
@@ -13,7 +14,7 @@ interface TaskItemProps {
 
 export default function TaskItem({task}: TaskItemProps) {
     const router = useRouter()
-
+    const scrollToTop = useScrollToTop();
     const {setTask, setEditing} = useTask()
 
 
@@ -39,11 +40,8 @@ export default function TaskItem({task}: TaskItemProps) {
 
     const onTaskClick = () => {
         setEditing(true);
-        setTask({
-            id: todoOptimistic.id,
-            title: todoOptimistic.title,
-            completed: todoOptimistic.completed
-        });
+        scrollToTop();
+        setTask(todoOptimistic);
     };
 
     return (

@@ -33,6 +33,12 @@ export default function TaskInput() {
     }, [setEditing, setTask]);
 
     const addTaskAction = useCallback(() => {
+
+        if(task.title.trim() === '') {
+            setEditing(false);
+            return
+        }
+
         if (task?.id === '') {
             const newTaskId = uuidv4();
             const newTask = {
@@ -46,15 +52,14 @@ export default function TaskInput() {
             updateTask(newTaskId, newTask);
             createTasksByUser({title: newTask.title}).then(() => {
                 setTask(initialValue)
-                router.refresh();
             })
         } else {
             updatedTaskByUser({id: task.id!, title: task.title}).then(() => {
                 setTask(initialValue)
-                router.refresh();
             })
         }
-    }, [task, updateTask, setTask, router]);
+        setEditing(false);
+    }, [task.title, task.id, setEditing, updateTask, setTask, router]);
 
     const isDisabled = task.title.trim() === '';
 
@@ -117,7 +122,6 @@ export default function TaskInput() {
             {id: 'cancel', label: 'Cancel', className: 'bg-cancelButton text-textLetterDark', onClick: handleCancel},
             {
                 id: 'ok',
-                disabled: isDisabled,
                 label: windowSize.width && windowSize.width > 1230 ? (isDisabled ? 'Ok' : 'Add') : (isDisabled ? 'X' : '+'),
                 className: `bg-acceptButton text-white text-center`,
                 onClick: addTaskAction,
@@ -154,8 +158,6 @@ export default function TaskInput() {
 
     return (
         <div className="flex flex-col w-10/12">
-            {/*<ScrollArea className="flex-1">*/}
-
             <div
                 className={cn(
                     "flex items-center gap-3 p-3",
@@ -201,8 +203,6 @@ export default function TaskInput() {
                     <div className="flex gap-1">{renderButtons()}</div>
                 </div>
             )}
-            {/*    <ScrollBar orientation="horizontal"/>*/}
-            {/*</ScrollArea>*/}
         </div>
     );
 }
