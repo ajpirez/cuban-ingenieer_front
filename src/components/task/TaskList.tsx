@@ -7,7 +7,7 @@ export default function TaskList() {
   const { tasks } = useTask();
 
   return (
-    <div className=" w-full">
+    <div className="w-full">
       {tasks.map((task, index) => (
         <TaskItem key={index} task={task} />
       ))}

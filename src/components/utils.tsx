@@ -11,19 +11,24 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function highlightWordsList(text: string) {
-  if (!text) return text;
+  if (!text) {
+    return text;
+  }
+
+  let emailCount = 0;
+  let urlCount = 0;
 
   const parts = text.split(' ');
 
   return parts.map((part, i) => {
     const commonStyles =
-      'inline-flex items-center gap-1 rounded-3xl font-bold py-1 px-2 break-words text-ellipsis w-fit';
+      'inline-flex items-center gap-1 rounded-3xl font-bold py-1 px-2 break-words text-ellipsis w-fit mr-1';
 
     if (isEmail(part)) {
       return (
         <span key={i} className={`${commonStyles} bg-orangeLetterLight text-orangeLetterDark`}>
           <img src="/mail.svg" alt="Mail" className="mr-1 h-4 w-4" style={{ verticalAlign: 'middle' }} />
-          <span className="leading-none">{part}</span>
+          <span className="leading-none">{`Email ${++emailCount}`}</span>
         </span>
       );
     }
@@ -31,15 +36,15 @@ export function highlightWordsList(text: string) {
     if (isUrl(part)) {
       return (
         <span key={i} className={`${commonStyles} bg-blueLetterLight text-blueLetterDark`}>
-          <img src="/link.svg" alt="Link" className="mr-1 h-4 w-4" style={{ verticalAlign: 'middle' }} />
-          <span className="leading-none">{part}</span>
+          <img src="/link.svg" alt="Link" className="h-4 w-4" style={{ verticalAlign: 'middle' }} />
+          <span className="leading-none">{`Link ${++urlCount}`}</span>
         </span>
       );
     }
 
     if (isTag(part)) {
       return (
-        <span key={i} className={`${commonStyles} bg-purpleLetterLight text-purpleLetterDark`}>
+        <span key={i} className={`${commonStyles} h-6 w-4 bg-purpleLetterLight text-purpleLetterDark`}>
           {part}
         </span>
       );
@@ -47,7 +52,7 @@ export function highlightWordsList(text: string) {
 
     if (isMention(part)) {
       return (
-        <span key={i} className={`${commonStyles} bg-greenLetterLight text-greenLetterDark`}>
+        <span key={i} className={`${commonStyles} h-6 w-4 bg-greenLetterLight text-greenLetterDark`}>
           {part}
         </span>
       );
@@ -65,30 +70,34 @@ export const highlightWordsColor = (input: string) => {
   const parts = input.split(' ');
 
   return parts.map((part, i) => {
-    if (isEmail(part))
+    if (isEmail(part)) {
       return (
         <span key={i} className="font-semibold text-orangeLetter">
           {part}{' '}
         </span>
       );
-    if (isUrl(part))
+    }
+    if (isUrl(part)) {
       return (
         <span key={i} className="font-semibold text-blueLetter">
           {part}{' '}
         </span>
       );
-    if (isTag(part))
+    }
+    if (isTag(part)) {
       return (
         <span key={i} className="font-semibold text-purpleLetter">
           {part}{' '}
         </span>
       );
-    if (isMention(part))
+    }
+    if (isMention(part)) {
       return (
         <span key={i} className="font-semibold text-greenLetter">
           {part}{' '}
         </span>
       );
+    }
     return <span key={i}>{part} </span>;
   });
 };
