@@ -104,7 +104,7 @@ export default function TaskInput() {
         id: 'delete',
         label: 'Delete',
         className: 'custom-xl:hidden block',
-        icon: '/maximize-2-light.svg',
+        icon: isDisabled ? '/trash-light.svg' : '/trash-dark.svg',
         disabled: false,
         onClick: handleCancel,
       },
@@ -117,7 +117,7 @@ export default function TaskInput() {
       {
         id: 'ok',
         label: windowSize.width && windowSize.width > 1230 ? (isDisabled ? 'Ok' : 'Add') : isDisabled ? 'X' : '+',
-        className: `bg-acceptButton text-white text-center`,
+        className: 'bg-acceptButton text-white text-center',
         onClick: addTaskAction,
       },
     ];
@@ -137,7 +137,12 @@ export default function TaskInput() {
     return buttonsConfig.map(button => (
       <div key={button.id}>
         <div className="block custom-xl:hidden">
-          <ButtonResize icon={button.icon} onClick={button.onClick} disabled={isDisabled} />
+          <ButtonResize
+            icon={button.icon}
+            onClick={button.onClick}
+            disabled={isDisabled}
+            className={button.className}
+          />
         </div>
         <div className="hidden custom-xl:block">
           <Button button={button} />
@@ -176,7 +181,7 @@ export default function TaskInput() {
             />
           </div>
         ) : (
-          <p className="text-gray-500">Type to add new task</p>
+          <p className="text-sm text-gray-500 md:text-base">Type to add new task</p>
         )}
       </div>
 

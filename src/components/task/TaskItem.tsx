@@ -51,7 +51,7 @@ export default function TaskItem({ task }: TaskItemProps) {
         <img src="/check-square.svg" alt="Add icon" className="h-6 w-6" />
       )}
 
-      <div className="w-5/6 flex-grow break-words text-base leading-6" onClick={onTaskClick}>
+      <div className="w-5/6 flex-grow break-words text-sm leading-6 md:text-base" onClick={onTaskClick}>
         {highlightWordsList(todoOptimistic.title)}
       </div>
     </div>
