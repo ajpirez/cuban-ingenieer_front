@@ -20,8 +20,6 @@ export const listTasksByUser = async ({ page = 1, limit = 10 }: ListTasksParams)
       cache: 'no-store',
     });
 
-    // console.log({res})
-
     if (res.status === 401) {
       return { status: 401, message: 'Unauthorized' };
     }

@@ -5,6 +5,7 @@ import { FileTable } from '@/components/uploads/file-table';
 import { checkPositiveInteger } from '@/components/utils';
 import HandleSignOut from '@/components/ui/HandleSignOut';
 import { listFileByUser } from '@/actions/listFileByUser';
+import { Pagination } from '@/components/ui/Pagination';
 
 interface Props {
   searchParams: {
@@ -21,14 +22,15 @@ const UploadsPage = async ({ searchParams }: Props) => {
   });
 
   return (
-    <div className="flex h-full flex-1 flex-col overflow-hidden bg-[#0A0A0A] pb-[69px]">
-      <HandleSignOut status={files?.status ?? 200} />
-      <div className="flex items-center space-x-3 bg-[#0A0A0A] px-4 py-3">
-        <CoverImage />
-      </div>
+    <div className="flex flex-1 flex-col overflow-hidden bg-white">
       <ScrollArea className="mt-3 flex-1">
+        <HandleSignOut status={files?.status ?? 200} />
+        <div className="flex items-center space-x-3 bg-white px-4 py-3">
+          <CoverImage />
+        </div>
         <div className="min-w-max">
           <FileTable files={files?.data?.elements || []} />
+          <Pagination totalPages={Math.ceil(files?.data?.pagination?.lastPage ?? 0)} />
         </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>

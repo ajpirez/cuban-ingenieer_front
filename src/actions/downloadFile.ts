@@ -29,7 +29,17 @@ export async function downloadFile({ id }: DownloadFile) {
     }
 
     const blob = await res.blob();
-    return { blob, success: true };
+    const arrayBuffer = await blob.arrayBuffer();
+    const base64String = Buffer.from(arrayBuffer).toString('base64');
+
+    const contentDisposition = res.headers.get('content-disposition');
+    let filename = 'downloaded-file.zip';
+
+    if (contentDisposition && contentDisposition.includes('filename=')) {
+      filename = contentDisposition.split('filename=')[1].replace(/"/g, '').trim();
+    }
+
+    return { base64: base64String, success: true, mimeType: blob.type, filename };
   } catch (e: any) {
     return { success: false, message: e.message || 'An error occurred' };
   }

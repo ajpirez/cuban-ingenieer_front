@@ -39,39 +39,40 @@ export const Pagination = ({ totalPages }: Props) => {
   };
 
   return (
-    <div className="mb-32 mt-10 flex justify-center text-center">
-      <nav aria-label="Page navigation example">
-        <ul className="list-style-none flex">
-          <li className="page-item">
-            <a
-              className="page-link relative block rounded border-0 bg-transparent px-3 py-1.5 text-gray-800 outline-none transition-all duration-300 hover:bg-gray-200 hover:text-gray-800 focus:shadow-none"
+    <div className="mb-16 mt-6 flex justify-center text-center">
+      <nav aria-label="Page navigation">
+        <ul className="flex list-none space-x-1">
+          <li>
+            <Link
               href={createPageUrl(currentPage - 1)}
+              className="block rounded-full bg-gray-200 px-2 py-1.5 text-gray-600 transition-all duration-300 hover:bg-gray-300 hover:text-gray-800"
             >
-              <IoChevronBackOutline size={30} />
-            </a>
+              <IoChevronBackOutline size={20} />
+            </Link>
           </li>
           {allPages.map((page, index) => (
-            <li key={page + '_' + index} className="page-item">
+            <li key={page + '_' + index}>
               <Link
+                href={createPageUrl(page)}
                 className={clsx(
-                  'page-link relative block rounded border-0 px-3 py-1.5 shadow-md outline-none transition-all duration-300 hover:bg-blue-600 hover:text-white focus:shadow-md',
+                  'flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-all duration-300',
                   {
-                    'bg-blue-600 text-white shadow-sm hover:bg-blue-700 hover:text-white': page === currentPage,
+                    'bg-blue-600 text-white': page === currentPage,
+                    'bg-gray-200 text-gray-600 hover:bg-blue-600 hover:text-white': page !== currentPage,
                   },
                 )}
-                href={createPageUrl(page)}
               >
                 {page}
               </Link>
             </li>
           ))}
-          <li className="page-item">
-            <a
-              className="page-link relative block rounded border-0 bg-transparent px-3 py-1.5 text-gray-800 outline-none transition-all duration-300 hover:bg-gray-200 hover:text-gray-800 focus:shadow-none"
+          <li>
+            <Link
               href={createPageUrl(currentPage + 1)}
+              className="block rounded-full bg-gray-200 px-2 py-1.5 text-gray-600 transition-all duration-300 hover:bg-gray-300 hover:text-gray-800"
             >
-              <IoChevronForwardOutline size={30} />
-            </a>
+              <IoChevronForwardOutline size={20} />
+            </Link>
           </li>
         </ul>
       </nav>

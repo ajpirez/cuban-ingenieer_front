@@ -6,7 +6,6 @@ import { auth } from '@/auth.config';
 export const getToken = async () => {
   try {
     const session = await auth();
-    //@ts-ignore
     return session?.user.accessToken;
   } catch (e) {
     return '';
@@ -49,7 +48,12 @@ export const CustomHeaders = async ({
   }
 
   if (isSecurePath) {
-    optionsR.headers.Authorization = `Bearer ${await getToken()}`;
+    const token = await getToken();
+    if (token) {
+      optionsR.headers.Authorization = `Bearer ${token}`;
+    } else {
+      throw new Error('Failed to retrieve token');
+    }
   }
 
   if (body) {

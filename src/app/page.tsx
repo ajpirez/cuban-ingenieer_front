@@ -7,14 +7,14 @@ import { Pagination } from '@/components/ui/Pagination';
 import { checkPositiveInteger } from '@/components/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
-interface Props {
-  searchParams: {
-    page?: string;
-  };
-}
+// interface Props {
+//   searchParams: {
+//     page?: string;
+//   };
+// }
 
-export default async function Home({ searchParams }: Props) {
-  const page = searchParams?.page;
+export default async function Home({ searchParams }: any) {
+  const { page } = await searchParams;
 
   const tasks = await listTasksByUser({
     page: +checkPositiveInteger(page || '1', 1, 1000000, '1'),

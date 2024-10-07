@@ -1,22 +1,24 @@
 'use server';
 
-import { BASE_URL } from '@/actions/auth/auth';
 import { CustomHeaders } from '@/actions/helpers';
+import { BASE_URL } from '@/actions/auth/auth';
+import { revalidatePath } from 'next/cache';
 
-export async function uploadFile(formData: FormData) {
+interface UpdateFileName {
+  id: string;
+  name: string;
+}
+
+export const updateFileName = async ({ id, name }: UpdateFileName) => {
   try {
-    const file = formData.get('file') as File;
-    if (!file) {
-      throw new Error('No file provided');
-    }
-
     const requestOptions = await CustomHeaders({
-      method: 'POST',
-      body: formData,
+      method: 'PATCH',
+      body: JSON.stringify({ name }),
+      contentType: 'application/json',
       isSecurePath: true,
     });
 
-    const res = await fetch(`${BASE_URL}/file/upload`, {
+    const res = await fetch(`${BASE_URL}/file/${id}`, {
       ...requestOptions,
       cache: 'no-store',
     });
@@ -31,8 +33,9 @@ export async function uploadFile(formData: FormData) {
     }
 
     const data = await res.json();
+    revalidatePath('/uploads')
     return { data, success: true };
   } catch (e: any) {
     return { success: false, message: e.message || 'An error occurred' };
   }
-}
+};

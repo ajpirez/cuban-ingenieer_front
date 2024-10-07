@@ -118,3 +118,16 @@ export const generatePaginationNumbers = (currentPage: number, totalPages: numbe
   }
   return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
 };
+
+export const formatFileSize = (sizeInBytes: number) => {
+  const units = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  let size = sizeInBytes;
+  let unitIndex = 0;
+
+  while (size >= 1024 && unitIndex < units.length - 1) {
+    size /= 1024;
+    unitIndex++;
+  }
+
+  return `${size.toFixed(2)} ${units[unitIndex]}`;
+};
