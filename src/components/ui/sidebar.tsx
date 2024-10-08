@@ -1,6 +1,8 @@
 'use client';
 import {
-  IoCloseOutline, IoCloudUploadOutline,  IoListOutline,
+  IoCloseOutline,
+  IoCloudUploadOutline,
+  IoListOutline,
   IoLogInOutline,
   IoLogOutOutline,
   IoSearchOutline,
@@ -48,14 +50,6 @@ export const Sidebar = () => {
       >
         <IoCloseOutline size={50} className="absolute right-5 top-5 cursor-pointer" onClick={() => closeMenu()} />
 
-        <div className="relative mt-14">
-          <IoSearchOutline size={20} className="absolute left-2 top-2" />
-          <input
-            type="text"
-            placeholder="Buscar"
-            className="w-full rounded border-b-2 border-gray-200 bg-gray-50 pl-10 text-xl focus:border-blue-500 focus:outline-none"
-          />
-        </div>
 
         {isAuthenticated && (
           <>
