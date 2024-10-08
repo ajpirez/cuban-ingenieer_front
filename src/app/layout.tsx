@@ -28,12 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${robotoMono.className} antialiased`}>
-        <Providers>
-          <TopMenu />
-          <Sidebar />
-          {children}
-          <Footer />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

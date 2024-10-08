@@ -51,15 +51,14 @@ export default function TaskInput() {
 
       updateTask(newTaskId, newTask);
       createTasksByUser({ title: newTask.title }).then(() => {
-        setTask(initialValue);
+        toast.message('📑 Task created!');
       });
-      toast.message('📑 Task created!');
     } else {
       updatedTaskByUser({ id: task.id!, title: task.title }).then(() => {
-        setTask(initialValue);
+        toast.message('📑 Task updated!');
       });
     }
-    toast.message('📑 Task updated!');
+    setTask(initialValue);
     setEditing(false);
     router.refresh();
   }, [task.title, task.id, setEditing, updateTask, setTask, router]);

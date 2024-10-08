@@ -25,7 +25,7 @@ export const TopMenu = () => {
   }
 
   return (
-    <nav className="flex w-full items-center justify-between bg-stone-100 px-5 shadow-lg">
+    <nav className="flex w-full items-center justify-between bg-stone-100 px-5">
       <div>
         <Link rel="stylesheet" href="" />
         <span className={'font-bold antialiased'}>Cuban Ingenieer</span>
