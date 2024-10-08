@@ -33,7 +33,7 @@ export const updateFileName = async ({ id, name }: UpdateFileName) => {
     }
 
     const data = await res.json();
-    revalidatePath('/uploads')
+    revalidatePath('/uploads');
     return { data, success: true };
   } catch (e: any) {
     return { success: false, message: e.message || 'An error occurred' };

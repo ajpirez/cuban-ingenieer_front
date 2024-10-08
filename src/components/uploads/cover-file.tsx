@@ -46,13 +46,7 @@ export function CoverFile() {
         htmlFor="coverUpload"
         className="flex h-16 w-16 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-neutral-700 text-white sm:h-20 sm:w-20"
       >
-        <input
-          id="coverUpload"
-          type="file"
-          name="file"
-          className="hidden"
-          onChange={handleFileChange}
-        />
+        <input id="coverUpload" type="file" name="file" className="hidden" onChange={handleFileChange} />
         {pending ? (
           <LuLoader2 className="h-5 w-5 animate-spin text-neutral-600" />
         ) : (

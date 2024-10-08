@@ -30,7 +30,6 @@ function FileRow({
   isSelected: boolean;
   onSelect: () => void;
 }) {
-  const [isFocused, setIsFocused] = useState(false);
   const [isRename, setIsRename] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState(file.file_original_name);
@@ -92,10 +91,8 @@ function FileRow({
       className={`group relative cursor-pointer select-none hover:bg-gray-100 ${isSelected ? 'bg-gray-200' : ''}`}
       tabIndex={0}
       onClick={onSelect}
-      onFocus={() => setIsFocused(true)}
       onBlur={() => {
         setName(file.file_original_name);
-        setIsFocused(false);
       }}
     >
       <td className="w-10 py-1 pl-3 pr-1 text-center tabular-nums">

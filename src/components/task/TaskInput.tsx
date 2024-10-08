@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useCallback, useMemo } from 'react';
 import { cn } from '@/components/utils';
-import { UploadButton } from '@/components/uploads/button';
 import { ButtonResize } from '@/components/ui/button-resize';
 import { useWindowSize } from '@/hooks/use-windows-size';
 import { useTask } from '@/hooks/use-task';

@@ -8,8 +8,7 @@ interface Props {
   users: UserAvatar[];
 }
 
-
-export default function TaskList({users}: Props) {
+export default function TaskList({ users }: Props) {
   const { tasks } = useTask();
 
   return (

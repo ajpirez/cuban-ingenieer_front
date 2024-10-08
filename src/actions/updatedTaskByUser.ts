@@ -2,7 +2,6 @@
 
 import { CustomHeaders } from '@/actions/helpers';
 import { BASE_URL } from '@/actions/auth/auth';
-import { revalidatePath } from 'next/cache';
 
 interface UpdatedTaskByUser {
   id: string;

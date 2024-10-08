@@ -30,7 +30,7 @@ export const removeFileByUser = async ({ id }: RemoveFileByUser) => {
     }
 
     const data = await res.json();
-    revalidatePath('/uploads')
+    revalidatePath('/uploads');
     return { data, success: true };
   } catch (e: any) {
     return { success: false, message: e.message || 'An error occurred' };

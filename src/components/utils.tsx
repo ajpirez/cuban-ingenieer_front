@@ -44,7 +44,6 @@ export function highlightWordsList(text: string, users: UserAvatar[]) {
     }
 
     if (isTag(part)) {
-
       return (
         <span key={i} className={`${commonStyles} h-6 w-4 bg-purpleLetterLight text-purpleLetterDark`}>
           {part}
@@ -53,15 +52,11 @@ export function highlightWordsList(text: string, users: UserAvatar[]) {
     }
 
     if (isMention(part)) {
-       const user = users.find(user => user.email === part.split('@')[1]);
+      const user = users.find(user => user.email === part.split('@')[1]);
 
       return (
-        <span key={i}
-              className={`${commonStyles} h-6 w-4 bg-greenLetterLight text-greenLetterDark`}>
-          <img src={user?.avatar}
-               alt="Link"
-               className="h-4 w-4"
-               style={{ verticalAlign: 'middle' }} />
+        <span key={i} className={`${commonStyles} h-6 w-4 bg-greenLetterLight text-greenLetterDark`}>
+          <img src={user?.avatar} alt="Link" className="h-4 w-4" style={{ verticalAlign: 'middle' }} />
           {user?.name}
         </span>
       );
