@@ -4,7 +4,8 @@ import { Roboto_Mono } from 'next/font/google';
 import React from 'react';
 import { Providers } from '@/components/providers/providers';
 import { Sidebar } from '@/components/ui/sidebar';
-import { TopMenu } from '@/components/ui/TopMenu';
+import { TopMenu } from '@/components/ui/topMenu';
+import { Footer } from '@/components/ui/footer';
 
 const robotoMono = Roboto_Mono({
   subsets: ['latin'],
@@ -31,6 +32,7 @@ export default function RootLayout({
           <TopMenu />
           <Sidebar />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>

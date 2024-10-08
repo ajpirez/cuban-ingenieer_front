@@ -38,7 +38,7 @@ const RegisterForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
       <label htmlFor="email">Email</label>
       <input
-        className={clsx('mb-5 w-full rounded border bg-gray-200 px-5 py-2', {
+        className={clsx('mb-5 w-full rounded border bg-gray-200 px-5 py-2 text-base', {
           'border-red-500': errors.email,
         })}
         type="email"
@@ -56,7 +56,7 @@ const RegisterForm = () => {
           {showPassword ? <FiEyeOff /> : <FiEye />}
         </button>
         <input
-          className={clsx('mb-5 w-full rounded border bg-gray-200 px-5 py-2 pr-10', {
+          className={clsx('mb-5 w-full rounded border bg-gray-200 px-5 py-2 pr-10 text-base', {
             'border-red-500': errors.password,
           })}
           type={showPassword ? 'text' : 'password'}
@@ -70,7 +70,7 @@ const RegisterForm = () => {
 
       {errorMessage && <span className="text-red-500">{errorMessage}</span>}
 
-      <button type="submit" className="btn-primary mt-6 text-sm">
+      <button type="submit" className="btn-primary mt-6">
         Create account
       </button>
 
@@ -80,7 +80,7 @@ const RegisterForm = () => {
         <div className="flex-1 border-t border-gray-500"></div>
       </div>
 
-      <Link href="/auth/login" className="btn-secondary text-center text-sm">
+      <Link href="/auth/login" className="btn-secondary text-center">
         Login
       </Link>
     </form>

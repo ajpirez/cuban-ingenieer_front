@@ -3,7 +3,7 @@ import TaskList from '@/components/task/TaskList';
 import { TaskProvider } from '@/hooks/use-task';
 import { listTasksByUser } from '@/actions/listTasksByUser';
 import HandleSignOut from '@/components/ui/HandleSignOut';
-import { Pagination } from '@/components/ui/Pagination';
+import { Pagination } from '@/components/ui/pagination';
 import { checkPositiveInteger } from '@/components/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
@@ -22,7 +22,7 @@ export default async function Home({ searchParams }: Props) {
   });
 
   return (
-    <main className="flex flex-col justify-start px-10 py-12">
+    <main className="flex flex-col justify-start px-10 py-5">
       <ScrollArea className="flex-1">
         <TaskProvider initialTasks={tasks?.data?.elements || []}>
           <HandleSignOut status={tasks?.status ?? 200} />
