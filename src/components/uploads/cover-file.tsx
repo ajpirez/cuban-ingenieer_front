@@ -7,7 +7,7 @@ import { FaUpload } from 'react-icons/fa';
 import { uploadFile } from '@/actions/uploadFile';
 import { useRouter } from 'next/navigation';
 
-export function CoverImage() {
+export function CoverFile() {
   const router = useRouter();
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState('');

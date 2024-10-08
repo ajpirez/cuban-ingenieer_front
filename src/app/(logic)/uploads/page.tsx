@@ -1,5 +1,5 @@
 import React from 'react';
-import { CoverImage } from '@/components/uploads/cover-image';
+import { CoverFile } from '@/components/uploads/cover-file';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { FileTable } from '@/components/uploads/file-table';
 import { checkPositiveInteger } from '@/components/utils';
@@ -24,7 +24,7 @@ const UploadsPage = async ({ searchParams: { page } }: Props) => {
       <ScrollArea className="mt-3 flex-1">
         <HandleSignOut status={files?.status ?? 200} />
         <div className="flex items-center space-x-3 bg-white px-4 py-3">
-          <CoverImage />
+          <CoverFile />
         </div>
         <div className="min-w-max">
           <FileTable files={files?.data?.elements || []} />
