@@ -9,6 +9,7 @@ import { updatedCompletedByUser } from '@/actions/updatedCompletedByUser';
 import useScrollToTop from '@/hooks/useScrollToTop';
 import { toast } from 'sonner';
 import { UserAvatar } from '@/app/interfaces/user';
+import Image from 'next/image';
 
 interface TaskItemProps {
   task: Task;
@@ -48,16 +49,33 @@ export default function TaskItem({ task, users }: TaskItemProps) {
   };
 
   return (
-    <div className="flex w-full items-center gap-2 p-3">
+    <div className="flex w-full items-start gap-2 p-3">
       {!todoOptimistic.completed ? (
-        <img src="/square.svg" alt="Add icon" className="h-6 w-6" onClick={onToggleTask} />
+        <Image
+          width={20}
+          height={20}
+          src="/square.svg"
+          alt="Add icon"
+          className="h-6 w-6 flex-shrink-0"
+          onClick={onToggleTask}
+        />
       ) : (
-        <img src="/check-square.svg" alt="Add icon" className="h-6 w-6" />
+        <Image
+          width={20}
+          height={20}
+          src="/check-square.svg"
+          alt="Add icon"
+          className="h-6 w-6 flex-shrink-0"
+        />
       )}
 
-      <div className="w-5/6 flex-grow space-y-1.5 break-words text-sm leading-6 md:text-base" onClick={onTaskClick}>
+      <div
+        className="flex w-5/6 flex-grow flex-wrap items-center gap-2 break-words text-sm leading-6 md:text-base"
+        onClick={onTaskClick}
+      >
         {highlightWordsList(todoOptimistic.title, users)}
       </div>
     </div>
+
   );
 }

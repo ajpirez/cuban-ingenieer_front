@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { UserAvatar } from '@/app/interfaces/user';
+import Image from 'next/image';
 
 const isEmail = (word: string) => /\S+@\S+\.\S+/.test(word);
 const isUrl = (word: string) => /^(https?:\/\/|www\.)[^\s]+$/.test(word);
@@ -28,7 +29,14 @@ export function highlightWordsList(text: string, users: UserAvatar[]) {
     if (isEmail(part)) {
       return (
         <span key={i} className={`${commonStyles} bg-orangeLetterLight text-orangeLetterDark`}>
-          <img src="/mail.svg" alt="Mail" className="mr-1 h-4 w-4" style={{ verticalAlign: 'middle' }} />
+          <Image
+            width={10}
+            height={10}
+            src="/mail.svg"
+            alt="Mail"
+            className="mr-1 h-4 w-4"
+            style={{ verticalAlign: 'middle' }}
+          />
           <span className="leading-none">{`Email ${++emailCount}`}</span>
         </span>
       );
@@ -37,7 +45,14 @@ export function highlightWordsList(text: string, users: UserAvatar[]) {
     if (isUrl(part)) {
       return (
         <span key={i} className={`${commonStyles} bg-blueLetterLight text-blueLetterDark`}>
-          <img src="/link.svg" alt="Link" className="h-4 w-4" style={{ verticalAlign: 'middle' }} />
+          <Image
+            width={10}
+            height={10}
+            src="/link.svg"
+            alt="Link"
+            className="h-4 w-4"
+            style={{ verticalAlign: 'middle' }}
+          />
           <span className="leading-none">{`Link ${++urlCount}`}</span>
         </span>
       );
@@ -56,7 +71,15 @@ export function highlightWordsList(text: string, users: UserAvatar[]) {
 
       return (
         <span key={i} className={`${commonStyles} h-6 w-4 bg-greenLetterLight text-greenLetterDark`}>
-          <img src={user?.avatar} alt="Link" className="h-4 w-4" style={{ verticalAlign: 'middle' }} />
+          <Image
+            width={10}
+            height={10}
+            unoptimized
+            src={user?.avatar || ''}
+            alt="Link"
+            className="h-4 w-4"
+            style={{ verticalAlign: 'middle' }}
+          />
           {user?.name}
         </span>
       );

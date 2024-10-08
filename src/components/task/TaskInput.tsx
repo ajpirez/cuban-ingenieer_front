@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
 import { UserAvatar } from '@/app/interfaces/user';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 const initialValue = {
   id: '',
@@ -149,9 +150,9 @@ export default function TaskInput({ users }: Props) {
             'Add'
           )
         ) : isDisabled ? (
-          <img src="/X.svg" alt="X" className="-p-2 min-h-[1rem]" />
+          <Image width={20} height={20} src="/X.svg" alt="X" className="-p-2 min-h-[1rem]" />
         ) : task?.id ? (
-          <img src="/disquete.svg" alt="Disquete" className="mr-1 h-4 w-4" />
+          <Image width={20} height={20} src="/disquete.svg" alt="Disquete" className="mr-1 h-4 w-4" />
         ) : (
           '+'
         ),
@@ -249,7 +250,13 @@ export default function TaskInput({ users }: Props) {
           setEditing(true);
         }}
       >
-        <img src="/plus-square.svg" alt="Add icon" className="bg-[background: #007FFF] h-6 w-6" />
+        <Image
+          width={20}
+          height={20}
+          src="/plus-square.svg"
+          alt="Add icon"
+          className="bg-[background: #007FFF] h-6 w-6"
+        />
         {editing ? (
           <div className="relative w-full overflow-auto">
             <div className="pointer-events-none absolute inset-0 whitespace-pre-wrap break-words bg-transparent">
@@ -294,9 +301,12 @@ export default function TaskInput({ users }: Props) {
               }}
             />
 
-            <img
+            <Image
+              width={20}
+              height={20}
               src={avatar}
               alt="Avatar"
+              unoptimized
               className={cn('absolute right-0 top-0 h-6', isDisabled ? 'opacity-50' : '')}
             />
           </div>
@@ -325,7 +335,10 @@ export default function TaskInput({ users }: Props) {
                 onClick={() => handleUserSelect(user.email)}
                 className="flex cursor-pointer items-center rounded-lg p-3 text-sm text-gray-800 transition-all duration-150 ease-in-out hover:scale-105 hover:bg-gray-100"
               >
-                <img
+                <Image
+                  unoptimized
+                  width={20}
+                  height={20}
                   src={user.avatar || '//avatar.svg'}
                   alt={`${user.email} avatar`}
                   className="mr-3 h-6 w-6 rounded-full"
