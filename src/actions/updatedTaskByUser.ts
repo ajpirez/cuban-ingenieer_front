@@ -33,7 +33,6 @@ export const updatedTaskByUser = async ({ id, title }: UpdatedTaskByUser) => {
     }
 
     const data = await res.json();
-    revalidatePath('/');
     return { data, success: true };
   } catch (e: any) {
     return { success: false, message: e.message || 'An error occurred' };

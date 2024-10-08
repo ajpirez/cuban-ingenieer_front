@@ -15,7 +15,7 @@ export function CoverImage() {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size <= 5 * 1024 * 1024) {
+      if (file.size <= 50 * 1024 * 1024) {
         const formData = new FormData();
         formData.append('file', file);
 
@@ -34,7 +34,7 @@ export function CoverImage() {
           setPending(false);
         }
       } else {
-        alert('File size exceeds 5MB limit');
+        alert('File size exceeds 50MB limit');
         e.target.value = '';
       }
     }
@@ -50,7 +50,6 @@ export function CoverImage() {
           id="coverUpload"
           type="file"
           name="file"
-          accept="image/*"
           className="hidden"
           onChange={handleFileChange}
         />

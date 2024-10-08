@@ -13,8 +13,7 @@ interface Props {
   };
 }
 
-const UploadsPage = async ({ searchParams }: Props) => {
-  const page = searchParams?.page;
+const UploadsPage = async ({ searchParams:{page} }: Props) => {
 
   const files = await listFileByUser({
     page: +checkPositiveInteger(page || '1', 1, 1000000, '1'),
@@ -30,7 +29,9 @@ const UploadsPage = async ({ searchParams }: Props) => {
         </div>
         <div className="min-w-max">
           <FileTable files={files?.data?.elements || []} />
-          <Pagination totalPages={Math.ceil(files?.data?.pagination?.lastPage ?? 0)} />
+          {files?.data?.elements?.length > 0 && (
+            <Pagination totalPages={Math.ceil(files?.data?.pagination?.lastPage ?? 0)} />
+          )}
         </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>

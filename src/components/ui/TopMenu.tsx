@@ -16,7 +16,9 @@ const TopMenu = () => {
     await signOut();
     setIsAuthenticated(false);
   };
-  if (!isAuthenticated) return null;
+  if (!isAuthenticated) {
+    return null;
+  }
   if (!m) {
     return null;
   }

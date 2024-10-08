@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useTask } from '@/hooks/use-task';
 import { updatedCompletedByUser } from '@/actions/updatedCompletedByUser';
 import useScrollToTop from '@/hooks/useScrollToTop';
+import { toast } from 'sonner';
 
 interface TaskItemProps {
   task: Task;
@@ -31,8 +32,9 @@ export default function TaskItem({ task }: TaskItemProps) {
       updatedCompletedByUser({ id: todoOptimistic.id }).then(() => {
         router.refresh();
       });
+      toast.message('✔ Task completed!');
     } catch (error) {
-      console.log('Error: ', error);
+      toast.message('❌ Error updating task');
       toggleTodoOptimistic(todoOptimistic.completed);
     }
   };

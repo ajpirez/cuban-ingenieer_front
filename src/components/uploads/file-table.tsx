@@ -14,6 +14,9 @@ import { formatFileSize } from '@/components/utils';
 import { FileStatus } from '@/app/interfaces/file';
 import { useRouter } from 'next/navigation';
 import { updateFileName } from '@/actions/updateFileName';
+import { v4 as uuid } from 'uuid';
+import { toast } from 'sonner';
+import { BASE_URL } from '@/actions/auth/auth';
 
 function FileRow({
   file,
@@ -26,7 +29,6 @@ function FileRow({
   isSelected: boolean;
   onSelect: () => void;
 }) {
-  const router = useRouter();
   const [isFocused, setIsFocused] = useState(false);
   const [isRename, setIsRename] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,19 +44,31 @@ function FileRow({
     const response = await downloadFile({ id: file.id });
 
     if (response.success) {
+      const byteCharacters = atob(response.base64!);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: response.mimeType });
+
+      const blobUrl = URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.href = `data:${response.mimeType};base64,${response.base64}`;
+      link.href = blobUrl;
       link.download = response.filename || 'downloaded-file.zip';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      URL.revokeObjectURL(blobUrl);
+      toast.message('📩 File downloaded');
     } else {
-      console.log('Error downloading file:', response.message);
+      toast.error('Error downloading file');
     }
   };
 
   const handleRename = () => {
     updateFileName({ name: name, id: file.id }).then(() => {});
+    toast.message('🗂 File renamed');
     setIsRename(false);
   };
 
@@ -107,12 +121,16 @@ function FileRow({
         <div className="opacity-0 transition-opacity group-hover:opacity-100">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-5 w-5 text-gray-600 hover:text-gray-800 focus:text-gray-800">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-5 w-5 text-gray-600 hover:text-gray-800 focus:text-gray-800"
+              >
                 <MoreHorizontal className="size-4" />
                 <span className="sr-only">File options</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48 text-gray-800 bg-white">
+            <DropdownMenuContent align="end" className="w-48 bg-white text-gray-800">
               {file.file_status === FileStatus.COMPRESSED && (
                 <DropdownMenuItem className="text-xs hover:bg-gray-100" onClick={handleDownload}>
                   Download
@@ -129,8 +147,30 @@ function FileRow({
 }
 
 export function FileTable({ files }: { files: any[] }) {
+  const router = useRouter();
+  const [clientId, _] = useState<string>(uuid());
   const tableRef = useRef<HTMLTableElement>(null);
   const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const api = `${BASE_URL}/file/sse/${clientId}`;
+    const es = new EventSource(api);
+
+    es.addEventListener('notification', e => {
+      const [title, description] = e.data.split(',');
+      toast.message(title, description);
+      router.refresh();
+    });
+
+    es.onerror = _ => {
+      toast.error('SSE connection error');
+      es.close();
+    };
+
+    return () => {
+      es.close();
+    };
+  }, []);
 
   return (
     <div className="w-full bg-white p-4 text-xs text-gray-800">

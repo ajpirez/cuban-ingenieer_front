@@ -28,3 +28,7 @@
 .btn-danger {
   @apply bg-red-500 px-4 py-2 text-white transition-all hover:bg-red-700;
 }
+
+.shadow-custom {
+  box-shadow: -2px -2px 2px 4px rgba(0, 0, 0, 0.1);
+}

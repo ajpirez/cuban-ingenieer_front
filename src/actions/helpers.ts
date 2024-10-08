@@ -48,12 +48,7 @@ export const CustomHeaders = async ({
   }
 
   if (isSecurePath) {
-    const token = await getToken();
-    if (token) {
-      optionsR.headers.Authorization = `Bearer ${token}`;
-    } else {
-      throw new Error('Failed to retrieve token');
-    }
+    optionsR.headers.Authorization = `Bearer ${await getToken()}`;
   }
 
   if (body) {

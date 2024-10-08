@@ -11,6 +11,7 @@ import { Task } from '@/app/interfaces/task';
 import { useRouter } from 'next/navigation';
 import { createTasksByUser } from '@/actions/createTasksByUser';
 import { updatedTaskByUser } from '@/actions/updatedTaskByUser';
+import { toast } from 'sonner';
 
 const initialValue = {
   id: '',
@@ -52,12 +53,15 @@ export default function TaskInput() {
       createTasksByUser({ title: newTask.title }).then(() => {
         setTask(initialValue);
       });
+      toast.message('📑 Task created!');
     } else {
       updatedTaskByUser({ id: task.id!, title: task.title }).then(() => {
         setTask(initialValue);
       });
     }
+    toast.message('📑 Task updated!');
     setEditing(false);
+    router.refresh();
   }, [task.title, task.id, setEditing, updateTask, setTask, router]);
 
   const isDisabled = task.title.trim() === '';
@@ -68,7 +72,10 @@ export default function TaskInput() {
         id: 'open',
         label: 'Open',
         icon: isDisabled ? '/maximize-2-light.svg' : '/maximize-2-dark.svg',
-        className: `mr-8 bg-cancelButton ${isDisabled ? 'text-textLetterLight' : 'text-textLetterDark'}`,
+        className: cn(
+          'bg-cancelButton -mr-1 custom-xl:mr-8',
+          isDisabled ? 'text-textLetterLight' : 'text-textLetterDark',
+        ),
         disabled: isDisabled,
         onClick: () => {},
       },
@@ -152,7 +159,7 @@ export default function TaskInput() {
   };
 
   return (
-    <div className="flex w-10/12 flex-col">
+    <div className={cn('flex w-10/12 flex-col', editing && 'shadow-custom')}>
       <div
         className={cn('flex items-center gap-3 p-3', editing && 'rounded-t border border-[#E7ECEF]')}
         onClick={() => {
