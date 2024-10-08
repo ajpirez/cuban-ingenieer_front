@@ -2,12 +2,9 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Roboto_Mono } from 'next/font/google';
 import React from 'react';
-import { TailwindIndicator } from '@/components/ui/tailwind-indicator';
-import { TaskProvider } from '@/hooks/use-task';
-import { Task } from '@/app/interfaces/task';
 import { Providers } from '@/components/providers/providers';
-import TopMenu from '@/components/ui/TopMenu';
-import { listTasksByUser } from '@/actions/listTasksByUser';
+import { Sidebar } from '@/components/ui/sidebar';
+import { TopMenu } from '@/components/ui/TopMenu';
 
 const robotoMono = Roboto_Mono({
   subsets: ['latin'],
@@ -32,6 +29,7 @@ export default function RootLayout({
       <body className={`${robotoMono.className} antialiased`}>
         <Providers>
           <TopMenu />
+          <Sidebar />
           {children}
         </Providers>
       </body>

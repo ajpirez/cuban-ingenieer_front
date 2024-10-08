@@ -1,9 +1,14 @@
 'use client';
-import { useSession, signOut } from 'next-auth/react';
+import Link from 'next/link';
+import { IoSearchOutline } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
+import { useUIStore } from '@/store/ui/ui-store';
 import { useMounted } from '@/hooks/use-mounted';
+import { useSession } from 'next-auth/react';
 
-const TopMenu = () => {
+export const TopMenu = () => {
+  const openSideMenu = useUIStore(state => state.openSideMenu);
+
   const m = useMounted();
   const { data: session } = useSession();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -12,32 +17,25 @@ const TopMenu = () => {
     setIsAuthenticated(!!session);
   }, [isAuthenticated, session]);
 
-  const logoutUser = async () => {
-    await signOut();
-    setIsAuthenticated(false);
-  };
   if (!isAuthenticated) {
     return null;
   }
   if (!m) {
     return null;
   }
+
   return (
-    <nav className="sticky top-0 z-50 bg-navbarColor p-2">
-      <ul className="m-0 flex list-none justify-end p-0">
-        {isAuthenticated && (
-          <li className="ml-2">
-            <button
-              className="cursor-pointer bg-transparent p-2 text-white hover:bg-gray-700"
-              onClick={() => logoutUser()}
-            >
-              Logout
-            </button>
-          </li>
-        )}
-      </ul>
+    <nav className="flex w-full items-center justify-between px-5">
+      <div>
+        <Link rel="stylesheet" href="" />
+        <span className={'font-bold antialiased'}>Cuban Ingenieer</span>
+        <span>| Application</span>
+      </div>
+      <div className="flex items-center">
+        <button onClick={() => openSideMenu()} className="m-2 rounded-md p-2 transition-all hover:bg-gray-100">
+          Menú
+        </button>
+      </div>
     </nav>
   );
 };
-
-export default TopMenu;
