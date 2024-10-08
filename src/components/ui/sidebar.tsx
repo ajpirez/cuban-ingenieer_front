@@ -5,7 +5,6 @@ import {
   IoListOutline,
   IoLogInOutline,
   IoLogOutOutline,
-  IoSearchOutline,
   IoShieldOutline,
 } from 'react-icons/io5';
 import Link from 'next/link';
@@ -42,14 +41,13 @@ export const Sidebar = () => {
       <nav
         onClick={e => e.stopPropagation()}
         className={clsx(
-          'fixed right-0 top-0 z-20 h-screen w-[500px] transform bg-white p-5 shadow-2xl transition-all duration-300',
+          'fixed right-0 top-0 z-20 h-screen w-[200px] transform bg-white p-5 shadow-2xl transition-all duration-300 sm:w-[400px] md:w-[500px]',
           {
             'translate-x-full': !isSideMenuOpen,
           },
         )}
       >
         <IoCloseOutline size={50} className="absolute right-5 top-5 cursor-pointer" onClick={() => closeMenu()} />
-
 
         {isAuthenticated && (
           <>

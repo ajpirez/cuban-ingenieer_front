@@ -17,6 +17,7 @@ import { updateFileName } from '@/actions/updateFileName';
 import { v4 as uuid } from 'uuid';
 import { toast } from 'sonner';
 import { BASE_URL } from '@/actions/auth/auth';
+import { removeFileByUser } from '@/actions/removeFileByUser';
 
 function FileRow({
   file,
@@ -66,10 +67,24 @@ function FileRow({
     }
   };
 
-  const handleRename = () => {
-    updateFileName({ name: name, id: file.id }).then(() => {});
-    toast.message('🗂 File renamed');
-    setIsRename(false);
+  const handleRename = async () => {
+    const response = await updateFileName({ name: name, id: file.id });
+    if (response.success) {
+      toast.message('🗂 File renamed');
+      setIsRename(false);
+    } else {
+      toast.error('Error renaming file');
+    }
+  };
+
+  const handleDelete = async () => {
+    const response = await removeFileByUser({ id: file.id });
+
+    if (response.success) {
+      toast.message('🗑 File deleted');
+    } else {
+      toast.error('Error deleting file');
+    }
   };
 
   return (
@@ -117,29 +132,31 @@ function FileRow({
       </td>
       <td className="px-2 py-1 tabular-nums text-gray-600">{file.file_status}</td>
       <td className="px-2 py-1 tabular-nums text-gray-600">{formatFileSize(file.file_size)}</td>
-      <td className="px-2 py-1">
-        <div className="opacity-0 transition-opacity group-hover:opacity-100">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-5 w-5 text-gray-600 hover:text-gray-800 focus:text-gray-800"
-              >
-                <MoreHorizontal className="size-4" />
-                <span className="sr-only">File options</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48 bg-white text-gray-800">
-              {file.file_status === FileStatus.COMPRESSED && (
+      <td className="group cursor-pointer px-2 py-1">
+        {file.file_status === FileStatus.COMPRESSED && (
+          <div className="sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-5 w-5 text-gray-600 hover:text-gray-800 focus:text-gray-950"
+                >
+                  <MoreHorizontal className="size-4" />
+                  <span className="sr-only">File options</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48 bg-white text-gray-800">
                 <DropdownMenuItem className="text-xs hover:bg-gray-100" onClick={handleDownload}>
                   Download
                 </DropdownMenuItem>
-              )}
-              <DropdownMenuItem className="text-xs hover:bg-gray-100">Delete</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+                <DropdownMenuItem className="text-xs hover:bg-gray-100" onClick={handleDelete}>
+                  Delete
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
       </td>
       {isSelected && <div className="pointer-events-none absolute inset-0 border border-blue-500" />}
     </tr>

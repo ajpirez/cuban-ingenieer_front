@@ -3,15 +3,15 @@ import { TopMenu } from '@/components/ui/topMenu';
 import { Sidebar } from '@/components/ui/sidebar';
 import { Footer } from '@/components/ui/footer';
 
-const ShopLayout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="min-h-screen">
+    <main className="flex min-h-screen flex-col justify-between">
       <TopMenu />
       <Sidebar />
-      <div className="px-0 sm:px-10">{children}</div>
+      <div className="flex-grow px-0 sm:px-10">{children}</div>
       <Footer />
     </main>
   );
 };
 
-export default ShopLayout;
+export default Layout;
