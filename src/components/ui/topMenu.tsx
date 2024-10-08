@@ -1,6 +1,5 @@
 'use client';
 import Link from 'next/link';
-import { IoSearchOutline } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
 import { useUIStore } from '@/store/ui/ui-store';
 import { useMounted } from '@/hooks/use-mounted';
@@ -25,7 +24,7 @@ export const TopMenu = () => {
   }
 
   return (
-    <nav className="flex w-full items-center justify-between px-5">
+    <nav className="flex w-full items-center justify-between bg-stone-100 px-5 shadow-lg">
       <div>
         <Link rel="stylesheet" href="" />
         <span className={'font-bold antialiased'}>Cuban Ingenieer</span>
