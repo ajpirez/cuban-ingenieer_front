@@ -28,7 +28,7 @@ module.exports = {
   plugins: ['react', 'react-hooks', 'prettier', 'jsx-a11y'],
   rules: {
     // Possible errors
-    'no-console': 'warn',
+    // 'no-console': 'warn',
     // Best practices
     'dot-notation': 'error',
     'no-else-return': 'error',
