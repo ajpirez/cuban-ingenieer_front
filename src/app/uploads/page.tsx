@@ -5,7 +5,7 @@ import { FileTable } from '@/components/uploads/file-table';
 import { checkPositiveInteger } from '@/components/utils';
 import HandleSignOut from '@/components/ui/HandleSignOut';
 import { listFileByUser } from '@/actions/listFileByUser';
-import { Pagination } from '@/components/ui/Pagination';
+import { Pagination } from '@/components/ui/pagination';
 
 interface Props {
   searchParams: {
@@ -13,8 +13,7 @@ interface Props {
   };
 }
 
-const UploadsPage = async ({ searchParams:{page} }: Props) => {
-
+const UploadsPage = async ({ searchParams: { page } }: Props) => {
   const files = await listFileByUser({
     page: +checkPositiveInteger(page || '1', 1, 1000000, '1'),
     limit: +checkPositiveInteger(page || '10', 10, 10, '10'),

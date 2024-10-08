@@ -24,7 +24,7 @@ const LoginForm = () => {
     <form action={dispatch} className="flex flex-col">
       <label htmlFor="email">Email</label>
       <input
-        className="mb-5 w-full rounded border bg-gray-200 px-5 py-2 text-xs"
+        className="mb-5 w-full rounded border bg-gray-200 px-5 py-2 text-base"
         type="email"
         id="email"
         name="email"
@@ -40,7 +40,7 @@ const LoginForm = () => {
           {showPassword ? <FiEyeOff /> : <FiEye />}
         </button>
         <input
-          className="mb-5 w-full rounded border bg-gray-200 px-5 py-2 pr-10"
+          className="mb-5 w-full rounded border bg-gray-200 px-5 py-2 pr-10 text-base"
           type={showPassword ? 'text' : 'password'}
           id="password"
           name="password"
@@ -65,7 +65,7 @@ const LoginForm = () => {
         <div className="flex-1 border-t border-gray-500"></div>
       </div>
 
-      <Link href="/auth/new-account" className="btn-secondary text-center text-sm">
+      <Link href="/auth/new-account" className="btn-secondary text-center">
         Create account
       </Link>
     </form>
@@ -80,13 +80,10 @@ function PendingButton() {
   return (
     <button
       type="submit"
-      className={clsx(
-        {
-          'btn-primary': !pending,
-          'btn-disabled': pending,
-        },
-        'text-sm',
-      )}
+      className={clsx({
+        'btn-primary': !pending,
+        'btn-disabled': pending,
+      })}
       disabled={pending}
     >
       Login
