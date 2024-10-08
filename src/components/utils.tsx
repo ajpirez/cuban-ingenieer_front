@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { UserAvatar } from '@/app/interfaces/user';
 
 const isEmail = (word: string) => /\S+@\S+\.\S+/.test(word);
 const isUrl = (word: string) => /^(https?:\/\/|www\.)[^\s]+$/.test(word);
@@ -10,7 +11,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function highlightWordsList(text: string) {
+export function highlightWordsList(text: string, users: UserAvatar[]) {
   if (!text) {
     return text;
   }
@@ -43,6 +44,7 @@ export function highlightWordsList(text: string) {
     }
 
     if (isTag(part)) {
+
       return (
         <span key={i} className={`${commonStyles} h-6 w-4 bg-purpleLetterLight text-purpleLetterDark`}>
           {part}
@@ -51,9 +53,16 @@ export function highlightWordsList(text: string) {
     }
 
     if (isMention(part)) {
+       const user = users.find(user => user.email === part.split('@')[1]);
+
       return (
-        <span key={i} className={`${commonStyles} h-6 w-4 bg-greenLetterLight text-greenLetterDark`}>
-          {part}
+        <span key={i}
+              className={`${commonStyles} h-6 w-4 bg-greenLetterLight text-greenLetterDark`}>
+          <img src={user?.avatar}
+               alt="Link"
+               className="h-4 w-4"
+               style={{ verticalAlign: 'middle' }} />
+          {user?.name}
         </span>
       );
     }
@@ -65,42 +74,6 @@ export function highlightWordsList(text: string) {
     );
   });
 }
-
-export const highlightWordsColor = (input: string) => {
-  const parts = input.split(' ');
-
-  return parts.map((part, i) => {
-    if (isEmail(part)) {
-      return (
-        <span key={i} className="font-semibold text-orangeLetter">
-          {part}{' '}
-        </span>
-      );
-    }
-    if (isUrl(part)) {
-      return (
-        <span key={i} className="font-semibold text-blueLetter">
-          {part}{' '}
-        </span>
-      );
-    }
-    if (isTag(part)) {
-      return (
-        <span key={i} className="font-semibold text-purpleLetter">
-          {part}{' '}
-        </span>
-      );
-    }
-    if (isMention(part)) {
-      return (
-        <span key={i} className="font-semibold text-greenLetter">
-          {part}{' '}
-        </span>
-      );
-    }
-    return <span key={i}>{part} </span>;
-  });
-};
 
 export function checkPositiveInteger(str: string, min?: number, max?: number, defaultValue: string = '1'): string {
   const num = parseInt(str, 10);

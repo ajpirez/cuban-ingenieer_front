@@ -3,11 +3,17 @@
 import { CustomHeaders } from '@/actions/helpers';
 import { BASE_URL } from '@/actions/auth/auth';
 
-export const registerUser = async (email: string, password: string) => {
+interface FormInputs {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export const registerUser = async ({ name, email, password }: FormInputs) => {
   try {
     const requestOptions = await CustomHeaders({
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ name, email, password }),
       contentType: 'application/json',
       isSecurePath: false,
     });

@@ -4,7 +4,7 @@ import React from 'react';
 
 type Button = {
   id: string;
-  label: string;
+  label: string | React.ReactNode;
   icon?: string;
   className?: string;
   onClick: () => void;

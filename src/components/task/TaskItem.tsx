@@ -8,12 +8,14 @@ import { useTask } from '@/hooks/use-task';
 import { updatedCompletedByUser } from '@/actions/updatedCompletedByUser';
 import useScrollToTop from '@/hooks/useScrollToTop';
 import { toast } from 'sonner';
+import { UserAvatar } from '@/app/interfaces/user';
 
 interface TaskItemProps {
   task: Task;
+  users: UserAvatar[];
 }
 
-export default function TaskItem({ task }: TaskItemProps) {
+export default function TaskItem({ task, users }: TaskItemProps) {
   const router = useRouter();
   const scrollToTop = useScrollToTop();
   const { setTask, setEditing } = useTask();
@@ -54,7 +56,7 @@ export default function TaskItem({ task }: TaskItemProps) {
       )}
 
       <div className="w-5/6 flex-grow break-words text-sm leading-6 md:text-base" onClick={onTaskClick}>
-        {highlightWordsList(todoOptimistic.title)}
+        {highlightWordsList(todoOptimistic.title, users)}
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { login } from '@/actions/auth/login';
 
 type FormInputs = {
+  name: string;
   email: string;
   password: string;
 };
@@ -24,8 +25,8 @@ const RegisterForm = () => {
 
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     setErrorMessage('');
-    const { email, password } = data;
-    const resp = await registerUser(email, password);
+    const { name, email, password } = data;
+    const resp = await registerUser({ name, email, password });
     if (!resp.success) {
       setErrorMessage(resp.message);
       return;
@@ -36,6 +37,16 @@ const RegisterForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
+      <label htmlFor="name">Name</label>
+      <input
+        className={clsx('mb-5 w-full rounded border bg-gray-200 px-5 py-2 text-base', {
+          'border-red-500': errors.name,
+        })}
+        type="text"
+        {...register('name', { required: true, minLength: 3 })}
+      />
+      {errors.name && <span className="text-sm text-red-500">Please enter a valid name</span>}
+
       <label htmlFor="email">Email</label>
       <input
         className={clsx('mb-5 w-full rounded border bg-gray-200 px-5 py-2 text-base', {

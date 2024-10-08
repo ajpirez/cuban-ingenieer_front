@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { MoreHorizontal } from 'lucide-react';
-import { Button } from '@/components/uploads/button';
+import { UploadButton } from '@/components/uploads/button';
 import { downloadFile } from '@/actions/downloadFile';
 import { formatFileSize } from '@/components/utils';
 import { FileStatus } from '@/app/interfaces/file';
@@ -137,14 +137,14 @@ function FileRow({
           <div className="sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
+                <UploadButton
                   variant="ghost"
                   size="icon"
                   className="h-5 w-5 text-gray-600 hover:text-gray-800 focus:text-gray-950"
                 >
                   <MoreHorizontal className="size-4" />
                   <span className="sr-only">File options</span>
-                </Button>
+                </UploadButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48 bg-white text-gray-800">
                 <DropdownMenuItem className="text-xs hover:bg-gray-100" onClick={handleDownload}>

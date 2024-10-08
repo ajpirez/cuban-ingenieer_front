@@ -1,8 +1,9 @@
 'use client';
 
+import React, { useEffect, useRef, useState } from 'react';
 import { useCallback, useMemo } from 'react';
-import { cn, highlightWordsColor } from '@/components/utils';
-import { Button } from '@/components/ui/button';
+import { cn } from '@/components/utils';
+import { UploadButton } from '@/components/uploads/button';
 import { ButtonResize } from '@/components/ui/button-resize';
 import { useWindowSize } from '@/hooks/use-windows-size';
 import { useTask } from '@/hooks/use-task';
@@ -12,6 +13,9 @@ import { useRouter } from 'next/navigation';
 import { createTasksByUser } from '@/actions/createTasksByUser';
 import { updatedTaskByUser } from '@/actions/updatedTaskByUser';
 import { toast } from 'sonner';
+import { useSession } from 'next-auth/react';
+import { UserAvatar } from '@/app/interfaces/user';
+import { Button } from '@/components/ui/button';
 
 const initialValue = {
   id: '',
@@ -19,11 +23,30 @@ const initialValue = {
   title: '',
 };
 
-export default function TaskInput() {
+interface Props {
+  users: UserAvatar[];
+}
+
+export default function TaskInput({ users }: Props) {
+  const { data: session } = useSession();
+  const avatar = session?.user.avatar || '/avatar.svg';
   const router = useRouter();
   const windowSize = useWindowSize();
+  const isEmail = (word: string) => /\S+@\S+\.\S+/.test(word);
+  const isUrl = (word: string) => /^(https?:\/\/|www\.)[^\s]+$/.test(word);
+  const isTag = (word: string) => word.startsWith('#');
+  const isMention = (word: string) => word.startsWith('@');
+  const [mentionDetected, setMentionDetected] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
+  const isCustomLg = windowSize.width && windowSize.width > 1230;
   const { task, setTask, editing, setEditing, updateTask } = useTask();
+  const isDisabled = task.title.trim() === '';
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [task]);
 
   const handleCancel = useCallback(() => {
     setEditing(false);
@@ -62,8 +85,6 @@ export default function TaskInput() {
     setEditing(false);
     router.refresh();
   }, [task.title, task.id, setEditing, updateTask, setTask, router]);
-
-  const isDisabled = task.title.trim() === '';
 
   const buttonsConfig = useMemo(() => {
     return [
@@ -122,14 +143,24 @@ export default function TaskInput() {
       { id: 'cancel', label: 'Cancel', className: 'bg-cancelButton text-textLetterDark', onClick: handleCancel },
       {
         id: 'ok',
-        label: windowSize.width && windowSize.width > 1230 ? (isDisabled ? 'Ok' : 'Add') : isDisabled ? 'X' : '+',
-        className: 'bg-acceptButton text-white text-center',
+        label: isCustomLg ? (
+          isDisabled ? (
+            'Ok'
+          ) : (
+            'Add'
+          )
+        ) : isDisabled ? (
+          <img src="/X.svg" alt="X" className="-p-2 min-h-[1rem]" />
+        ) : task?.id ? (
+          <img src="/disquete.svg" alt="Disquete" className="mr-1 h-4 w-4" />
+        ) : (
+          '+'
+        ),
+        className: `${!isDisabled && isCustomLg && 'text-right w-[100px]'} bg-acceptButton text-white text-center`,
         onClick: addTaskAction,
       },
     ];
   }, [addTaskAction, handleCancel, isDisabled, windowSize.width]);
-
-  const highlightWords = useCallback(highlightWordsColor, []);
 
   const renderButtons = () => {
     return windowSize.width && windowSize.width < 1230 ? (
@@ -137,6 +168,42 @@ export default function TaskInput() {
     ) : (
       actionButtons.map(button => <Button key={button.id} button={button} />)
     );
+  };
+
+  const highlightWordsColor = (input: string) => {
+    const parts = input.split(' ');
+
+    return parts.map((part, i) => {
+      if (isEmail(part)) {
+        return (
+          <span key={i} className="font-semibold text-orangeLetter">
+            {part}{' '}
+          </span>
+        );
+      }
+      if (isUrl(part)) {
+        return (
+          <span key={i} className="font-semibold text-blueLetter">
+            {part}{' '}
+          </span>
+        );
+      }
+      if (isTag(part)) {
+        return (
+          <span key={i} className="font-semibold text-purpleLetter">
+            {part}{' '}
+          </span>
+        );
+      }
+      if (isMention(part)) {
+        return (
+          <span key={i} className="font-semibold text-greenLetter">
+            {part}{' '}
+          </span>
+        );
+      }
+      return <span key={i}>{part} </span>;
+    });
   };
 
   const renderButtonsConfig = () => {
@@ -157,6 +224,24 @@ export default function TaskInput() {
     ));
   };
 
+  const handleUserSelect = (userEmail: string) => {
+    const words = task.title.split(' ');
+    words[words.length - 1] = `@${userEmail} `;
+    setTask({ ...task, title: words.join(' ') });
+    setDropdownVisible(false);
+  };
+
+  const handleCloseModal = () => {
+    const words = task.title.split(' ');
+    const lastWord = words[words.length - 1];
+    if (lastWord.startsWith('@')) {
+      const newInputValue = words.slice(0, -1).join(' ');
+      setTask({ ...task, title: newInputValue });
+    }
+    setDropdownVisible(false);
+    setMentionDetected(false);
+  };
+
   return (
     <div className={cn('flex w-10/12 flex-col', editing && 'shadow-custom')}>
       <div
@@ -169,21 +254,51 @@ export default function TaskInput() {
         {editing ? (
           <div className="relative w-full overflow-auto">
             <div className="pointer-events-none absolute inset-0 whitespace-pre-wrap break-words bg-transparent">
-              {highlightWords(task.title)}
+              {highlightWordsColor(task.title)}
             </div>
             <input
+              ref={inputRef}
               type="text"
               value={task.title}
-              onChange={e => setTask({ id: task.id || '', title: e.target.value, completed: false })}
+              onChange={e =>
+                !dropdownVisible && setTask({ id: task.id || '', title: e.target.value, completed: false })
+              }
               placeholder="Type to add new task"
               className="caret-default relative z-10 w-full bg-transparent pr-10 focus:outline-none"
-              style={{ caretColor: 'auto', color: 'transparent' }}
+              style={{ caretColor: '#007FFF', color: 'transparent' }}
+              onKeyDown={(e: any) => {
+                const inputValue = e.target.value;
+                const words = inputValue.split(' ');
+                const lastWord = words[words.length - 1];
+
+                if (e.key === 'Backspace') {
+                  if (lastWord.startsWith('@')) {
+                    e.preventDefault();
+                    const newInputValue = words.slice(0, -1).join(' ');
+                    setTask({ ...task, title: newInputValue + ' ' });
+                    setMentionDetected(false);
+                    setDropdownVisible(false);
+                  } else {
+                    setDropdownVisible(false);
+                    setMentionDetected(false);
+                  }
+                  return;
+                }
+
+                if (lastWord.startsWith('@') && !mentionDetected) {
+                  setMentionDetected(true);
+                  setDropdownVisible(true);
+                } else if (!lastWord.startsWith('@')) {
+                  setMentionDetected(false);
+                  setDropdownVisible(false);
+                }
+              }}
             />
 
             <img
-              src="/avatar.svg"
+              src={avatar}
               alt="Avatar"
-              className={cn('absolute right-0 top-0', isDisabled ? 'opacity-50' : '')}
+              className={cn('absolute right-0 top-0 h-6', isDisabled ? 'opacity-50' : '')}
             />
           </div>
         ) : (
@@ -195,6 +310,35 @@ export default function TaskInput() {
         <div className="flex items-center justify-between gap-3 rounded-b border border-[#E7ECEF] px-2 py-1">
           <div className="flex gap-1">{renderButtonsConfig()}</div>
           <div className="flex gap-1">{renderButtons()}</div>
+        </div>
+      )}
+
+      {dropdownVisible && (
+        <div className="relative z-20 mt-2 w-[250px] rounded-lg border border-gray-300 bg-white shadow-xl transition-all duration-200 ease-in-out">
+          <button onClick={handleCloseModal} className="absolute right-2 top-2 z-30 text-gray-500 hover:text-gray-700">
+            ✕
+          </button>
+
+          {users.length > 0 ? (
+            users.map(user => (
+              <div
+                key={user.id}
+                onClick={() => handleUserSelect(user.email)}
+                className="flex cursor-pointer items-center rounded-lg p-3 text-sm text-gray-800 transition-all duration-150 ease-in-out hover:scale-105 hover:bg-gray-100"
+              >
+                <img
+                  src={user.avatar || '//avatar.svg'}
+                  alt={`${user.email} avatar`}
+                  className="mr-3 h-6 w-6 rounded-full"
+                />
+                <span>{user.email}</span>
+              </div>
+            ))
+          ) : (
+            <div className="flex flex-col items-center justify-center p-4 text-sm text-gray-500">
+              <p>No users found</p>
+            </div>
+          )}
         </div>
       )}
     </div>

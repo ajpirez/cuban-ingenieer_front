@@ -33,15 +33,15 @@ export const Sidebar = () => {
     <div onClick={() => closeMenu()}>
       {isSideMenuOpen && (
         <>
-          <div className="fixed left-0 top-0 z-10 h-screen w-screen bg-black opacity-30" />
-          <div className="fade-in fixed left-0 top-0 z-10 h-screen w-screen backdrop-blur-sm backdrop-filter" />
+          <div className="fixed left-0 top-0 z-40 h-screen w-screen bg-black opacity-30" />
+          <div className="fade-in fixed left-0 top-0 z-40 h-screen w-screen backdrop-blur-sm backdrop-filter" />
         </>
       )}
 
       <nav
         onClick={e => e.stopPropagation()}
         className={clsx(
-          'fixed right-0 top-0 z-20 h-screen w-[200px] transform bg-white p-5 shadow-2xl transition-all duration-300 sm:w-[400px] md:w-[500px]',
+          'fixed right-0 top-0 z-40 h-screen w-[200px] transform bg-white p-5 shadow-2xl transition-all duration-300 sm:w-[400px] md:w-[500px]',
           {
             'translate-x-full': !isSideMenuOpen,
           },
