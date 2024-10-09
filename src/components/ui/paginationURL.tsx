@@ -39,7 +39,7 @@ export const PaginationURL = ({ totalPages }: Props) => {
   };
 
   return (
-    <div className="mb-16 mt-6 flex justify-center text-center">
+    <div className="bottom-15 sticky left-0 mt-6 flex w-full justify-center text-center">
       <nav aria-label="Page navigation">
         <ul className="flex list-none space-x-1">
           <li>
