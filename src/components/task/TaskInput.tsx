@@ -38,7 +38,7 @@ export default function TaskInput({ users }: Props) {
   const isMention = (word: string) => word.startsWith('@');
   const [mentionDetected, setMentionDetected] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const isCustomLg = windowSize.width && windowSize.width > 1230;
   const { task, setTask, editing, setEditing, updateTask } = useTask();
@@ -264,20 +264,35 @@ export default function TaskInput({ users }: Props) {
             <div className="pointer-events-none absolute inset-0 whitespace-pre-wrap break-words bg-transparent">
               {highlightWordsColor(task.title)}
             </div>
-            <input
+            <textarea
               ref={inputRef}
-              type="text"
               value={task.title}
-              onChange={e =>
-                !dropdownVisible && setTask({ id: task.id || '', title: e.target.value, completed: false })
-              }
+              onChange={e => {
+                const newValue = e.target.value;
+                if (newValue.length < 100 && !dropdownVisible) {
+                  setTask({ id: task.id || '', title: e.target.value, completed: false });
+                }
+              }}
               placeholder="Type to add new task"
-              className="caret-default relative z-10 w-full bg-transparent pr-10 focus:outline-none"
+              className="caret-default relative z-10 w-full resize-none overflow-hidden bg-transparent pr-10 focus:outline-none"
               style={{ caretColor: '#007FFF', color: 'transparent' }}
+              rows={1}
+              onInput={e => {
+                e.currentTarget.style.height = 'auto';
+                e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
+              }}
               onKeyDown={(e: any) => {
                 const inputValue = e.target.value;
                 const words = inputValue.split(' ');
                 const lastWord = words[words.length - 1];
+                const enterPressed = e.key === 'Enter';
+
+                if (enterPressed) {
+                  const lines = inputValue.split('\n');
+                  if (lines.length >= 2) {
+                    e.preventDefault();
+                  }
+                }
 
                 if (e.key === 'Backspace') {
                   if (lastWord.startsWith('@')) {
@@ -325,7 +340,7 @@ export default function TaskInput({ users }: Props) {
       )}
 
       {dropdownVisible && (
-        <div className="relative z-20 mt-2 w-[250px] rounded-lg border border-gray-300 bg-white shadow-xl transition-all duration-200 ease-in-out">
+        <div className="relative z-20 -mt-20 w-[250px] rounded-lg border border-gray-300 bg-white shadow-xl transition-all duration-200 ease-in-out">
           <button onClick={handleCloseModal} className="absolute right-2 top-2 z-30 text-gray-500 hover:text-gray-700">
             ✕
           </button>
