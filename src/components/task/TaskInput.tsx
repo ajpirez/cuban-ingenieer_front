@@ -247,7 +247,7 @@ export default function TaskInput({ users }: Props) {
       <div
         role="button"
         tabIndex={0}
-        className={cn('flex items-center gap-3 p-3', editing && 'rounded-t border border-[#E7ECEF]')}
+        className={cn('flex items-center gap-3 p-3', editing && 'rounded-t border border-textLetterLightDisabled')}
         onClick={() => {
           setEditing(true);
         }}
@@ -257,7 +257,7 @@ export default function TaskInput({ users }: Props) {
           height={20}
           src="/plus-square.svg"
           alt="Add icon"
-          className="bg-[background: #007FFF] h-6 w-6"
+          className="bg-[background: blueLetterDark] h-6 w-6"
         />
         {editing ? (
           <div className="relative w-full overflow-auto">
@@ -333,7 +333,7 @@ export default function TaskInput({ users }: Props) {
       </div>
 
       {editing && (
-        <div className="flex items-center justify-between gap-3 rounded-b border border-[#E7ECEF] px-2 py-1">
+        <div className="flex items-center justify-between gap-3 rounded-b border border-textLetterLightDisabled px-2 py-1">
           <div className="flex gap-1">{renderButtonsConfig()}</div>
           <div className="flex gap-1">{renderButtons()}</div>
         </div>
