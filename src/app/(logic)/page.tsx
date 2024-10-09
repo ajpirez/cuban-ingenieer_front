@@ -2,11 +2,10 @@ import TaskInput from '@/components/task/TaskInput';
 import TaskList from '@/components/task/TaskList';
 import { TaskProvider } from '@/hooks/use-task';
 import { listTasksByUser } from '@/actions/listTasksByUser';
-import { PaginationURL } from '@/components/ui/pagination';
+import { PaginationURL } from '@/components/ui/paginationURL';
 import { checkPositiveInteger } from '@/components/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { listUsersAvatars } from '@/actions/listUsersAvatars';
-// @ts-ignore
 import { HandleSignOut } from '@/components/ui/handleSignOut';
 
 interface Props {

@@ -4,7 +4,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { FileTable } from '@/components/uploads/file-table';
 import { checkPositiveInteger } from '@/components/utils';
 import { listFileByUser } from '@/actions/listFileByUser';
-import { PaginationURL } from '@/components/ui/pagination';
+import { PaginationURL } from '@/components/ui/paginationURL';
 import { HandleSignOut } from '@/components/ui/handleSignOut';
 
 interface Props {
