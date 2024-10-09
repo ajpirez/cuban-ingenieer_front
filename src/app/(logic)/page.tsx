@@ -2,11 +2,12 @@ import TaskInput from '@/components/task/TaskInput';
 import TaskList from '@/components/task/TaskList';
 import { TaskProvider } from '@/hooks/use-task';
 import { listTasksByUser } from '@/actions/listTasksByUser';
-import HandleSignOut from '@/components/ui/HandleSignOut';
-import { Pagination } from '@/components/ui/pagination';
+import { PaginationURL } from '@/components/ui/pagination';
 import { checkPositiveInteger } from '@/components/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { listUsersAvatars } from '@/actions/listUsersAvatars';
+// @ts-ignore
+import { HandleSignOut } from '@/components/ui/handleSignOut';
 
 interface Props {
   searchParams: {
@@ -33,7 +34,7 @@ export default async function Home({ searchParams }: Props) {
           <TaskInput users={users?.data?.elements || []} />
           <TaskList users={users?.data?.elements || []} />
           {tasks?.data?.elements?.length > 0 && (
-            <Pagination totalPages={Math.ceil(tasks?.data?.pagination?.lastPage ?? 0)} />
+            <PaginationURL totalPages={Math.ceil(tasks?.data?.pagination?.lastPage ?? 0)} />
           )}
         </TaskProvider>
         <ScrollBar orientation="horizontal" />

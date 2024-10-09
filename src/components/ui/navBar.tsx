@@ -5,7 +5,7 @@ import { useUIStore } from '@/store/ui/ui-store';
 import { useMounted } from '@/hooks/use-mounted';
 import { useSession } from 'next-auth/react';
 
-export const Navbar = () => {
+export const NavBar = () => {
   const openSideMenu = useUIStore(state => state.openSideMenu);
 
   const m = useMounted();

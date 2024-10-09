@@ -9,7 +9,7 @@ interface Props {
   totalPages: number;
 }
 
-export const Pagination = ({ totalPages }: Props) => {
+export const PaginationURL = ({ totalPages }: Props) => {
   const pathName = usePathname();
   const searchParams = useSearchParams();
 

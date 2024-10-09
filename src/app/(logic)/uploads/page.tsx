@@ -3,9 +3,9 @@ import { CoverFile } from '@/components/uploads/cover-file';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { FileTable } from '@/components/uploads/file-table';
 import { checkPositiveInteger } from '@/components/utils';
-import HandleSignOut from '@/components/ui/HandleSignOut';
 import { listFileByUser } from '@/actions/listFileByUser';
-import { Pagination } from '@/components/ui/pagination';
+import { PaginationURL } from '@/components/ui/pagination';
+import { HandleSignOut } from '@/components/ui/handleSignOut';
 
 interface Props {
   searchParams: {
@@ -29,7 +29,7 @@ const UploadsPage = async ({ searchParams: { page } }: Props) => {
         <div className="min-w-max">
           <FileTable files={files?.data?.elements || []} />
           {files?.data?.elements?.length > 0 && (
-            <Pagination totalPages={Math.ceil(files?.data?.pagination?.lastPage ?? 0)} />
+            <PaginationURL totalPages={Math.ceil(files?.data?.pagination?.lastPage ?? 0)} />
           )}
         </div>
         <ScrollBar orientation="horizontal" />
