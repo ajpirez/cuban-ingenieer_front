@@ -5,7 +5,7 @@ import { useUIStore } from '@/store/ui/ui-store';
 import { useMounted } from '@/hooks/use-mounted';
 import { useSession } from 'next-auth/react';
 
-export const TopMenu = () => {
+export const Navbar = () => {
   const openSideMenu = useUIStore(state => state.openSideMenu);
 
   const m = useMounted();
@@ -16,7 +16,10 @@ export const TopMenu = () => {
     setIsAuthenticated(!!session);
   }, [isAuthenticated, session]);
 
-  if (!isAuthenticated || !m) {
+  if (!isAuthenticated) {
+    return null;
+  }
+  if (!m) {
     return null;
   }
 
