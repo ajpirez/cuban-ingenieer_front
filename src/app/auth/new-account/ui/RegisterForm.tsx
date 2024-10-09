@@ -78,7 +78,7 @@ const RegisterForm = () => {
           required
         />
       </div>
-      {errors.password && <span className="text-sm text-red-500">Password must be at least 6 characters long</span>}
+      {errors.password && <span className="text-sm text-red-500">Password must be at least 8 characters long</span>}
 
       {errorMessage && <span className="text-red-500">{errorMessage}</span>}
 
