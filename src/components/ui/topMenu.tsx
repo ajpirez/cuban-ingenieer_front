@@ -16,10 +16,7 @@ export const TopMenu = () => {
     setIsAuthenticated(!!session);
   }, [isAuthenticated, session]);
 
-  if (!isAuthenticated) {
-    return null;
-  }
-  if (!m) {
+  if (!isAuthenticated || !m) {
     return null;
   }
 
