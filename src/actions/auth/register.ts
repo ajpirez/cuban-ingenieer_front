@@ -24,10 +24,30 @@ export const registerUser = async ({ name, email, password }: FormInputs) => {
     });
 
     const data = await res.json();
-
     if (res.status === 401) {
       return { status: 401, message: data.message };
     }
+
+    if (res.status === 422) {
+      const errorMessages = [];
+
+      if (data.errors.password) {
+        errorMessages.push(`Password: ${data.errors.password}`);
+      }
+      if (data.errors.name) {
+        errorMessages.push(`Name: ${data.errors.name}`);
+      }
+      if (data.errors.email) {
+        errorMessages.push(`Email: ${data.errors.email}`);
+      }
+
+      return {
+        success: false,
+        status: 422,
+        message: errorMessages.join(' | '),
+      };
+    }
+
     if (!res.ok) {
       return { success: false, message: data.message, status: res.status };
     }

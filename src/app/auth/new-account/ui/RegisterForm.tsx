@@ -27,6 +27,7 @@ const RegisterForm = () => {
     setErrorMessage('');
     const { name, email, password } = data;
     const resp = await registerUser({ name, email, password });
+    console.log(resp);
     if (!resp.success) {
       setErrorMessage(resp.message);
       return;
@@ -71,7 +72,7 @@ const RegisterForm = () => {
             'border-red-500': errors.password,
           })}
           type={showPassword ? 'text' : 'password'}
-          {...register('password', { required: true, minLength: 6 })}
+          {...register('password', { required: true, minLength: 8 })}
           id="password"
           name="password"
           required
