@@ -245,6 +245,8 @@ export default function TaskInput({ users }: Props) {
   return (
     <div className={cn('flex w-10/12 flex-col', editing && 'shadow-custom')}>
       <div
+        role="button"
+        tabIndex={0}
         className={cn('flex items-center gap-3 p-3', editing && 'rounded-t border border-[#E7ECEF]')}
         onClick={() => {
           setEditing(true);
@@ -331,6 +333,8 @@ export default function TaskInput({ users }: Props) {
           {users.length > 0 ? (
             users.map(user => (
               <div
+                role="button"
+                tabIndex={0}
                 key={user.id}
                 onClick={() => handleUserSelect(user.email)}
                 className="flex cursor-pointer items-center rounded-lg p-3 text-sm text-gray-800 transition-all duration-150 ease-in-out hover:scale-105 hover:bg-gray-100"

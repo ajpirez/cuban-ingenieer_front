@@ -60,15 +60,10 @@ export default function TaskItem({ task, users }: TaskItemProps) {
           onClick={onToggleTask}
         />
       ) : (
-        <Image
-          width={20}
-          height={20}
-          src="/check-square.svg"
-          alt="Add icon"
-          className="h-6 w-6 flex-shrink-0"
-        />
+        <Image width={20} height={20} src="/check-square.svg" alt="Add icon" className="h-6 w-6 flex-shrink-0" />
       )}
 
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         className="flex w-5/6 flex-grow flex-wrap items-center gap-2 break-words text-sm leading-6 md:text-base"
         onClick={onTaskClick}
@@ -76,6 +71,5 @@ export default function TaskItem({ task, users }: TaskItemProps) {
         {highlightWordsList(todoOptimistic.title, users)}
       </div>
     </div>
-
   );
 }

@@ -1,6 +1,5 @@
 'use client';
 import Link from 'next/link';
-import { IoSearchOutline } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
 import { useUIStore } from '@/store/ui/ui-store';
 import { useMounted } from '@/hooks/use-mounted';

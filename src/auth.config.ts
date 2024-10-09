@@ -13,7 +13,6 @@ export const authConfig: NextAuthConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const isAdmin = auth?.user?.role === 'admin';
       const isAnAuthenticatedRoute = authenticatedRoutes.includes(nextUrl.pathname);
       if (!isLoggedIn && isAnAuthenticatedRoute) {
         return Response.redirect(new URL('/auth/login', nextUrl));

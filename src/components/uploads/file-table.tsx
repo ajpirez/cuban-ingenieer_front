@@ -100,6 +100,7 @@ function FileRow({
       </td>
       <td className="px-2 py-1">
         {!isRename ? (
+          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
           <div
             className="flex w-full max-w-[500px] cursor-pointer items-center truncate font-medium text-gray-800"
             onClick={() => setIsRename(true)}
@@ -162,7 +163,7 @@ function FileRow({
 
 export function FileTable({ files }: { files: any[] }) {
   const router = useRouter();
-  const [clientId, _] = useState<string>(uuid());
+  const [clientId] = useState<string>(uuid());
   const tableRef = useRef<HTMLTableElement>(null);
   const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
 

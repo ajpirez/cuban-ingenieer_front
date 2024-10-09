@@ -23,7 +23,9 @@ type TaskContextType = {
   editing: boolean;
   setEditing: React.Dispatch<React.SetStateAction<boolean>>;
   tasks: Task[];
+  // eslint-disable-next-line no-unused-vars
   updateTask: (id: string, updates: Partial<Task>) => void;
+  // eslint-disable-next-line no-unused-vars
   deleteTask: (id: string) => void;
 };
 
@@ -40,6 +42,7 @@ export function TaskProvider({ children, initialTasks = [] }: { children: React.
   const [tasks, setOptimisticTasks] = useOptimistic(initialTasks, (state: Task[], action: OptimisticAction) => {
     switch (action.type) {
       case 'update':
+        // eslint-disable-next-line no-case-declarations
         const taskExists = state.some(task => task.id === action.id);
 
         return taskExists
