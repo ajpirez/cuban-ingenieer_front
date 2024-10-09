@@ -188,7 +188,7 @@ export function FileTable({ files }: { files: any[] }) {
   }, []);
 
   return (
-    <div className="w-full bg-white p-4 text-xs text-gray-800">
+    <div className="min-h-[50vh] w-full bg-white p-4 text-xs text-gray-800">
       <table ref={tableRef} className="w-full table-auto">
         <thead className="sticky top-0 border-b border-gray-300 bg-white">
           <tr className="text-left text-gray-600">

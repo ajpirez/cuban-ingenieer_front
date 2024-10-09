@@ -12,7 +12,7 @@ export default function TaskList({ users }: Props) {
   const { tasks } = useTask();
 
   return (
-    <div className="w-full">
+    <div className="min-h-[60vh] w-full">
       {tasks.map((task, index) => (
         <TaskItem key={index} task={task} users={users} />
       ))}
